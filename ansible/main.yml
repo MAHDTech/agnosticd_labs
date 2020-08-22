@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Wait for IdM to be responsive
+    uri:
+      url: "https://{{ ipa_host }}/ipa/ui/"
+      validate_certs: "{{ ipa_validate_certs }}"
+    register: rc
+    until: rc.status|trim|int == 200
+    retries: 90
+    delay: 60
+    when:
+      - ipa_host is defined
+- name: Create IdM users and groups
+  import_playbook: ../../requirements_roles/infra-ansible/playbooks/manage-identities/manage-idm-identities.yml
+- name: Update Anarchy with status
+  import_playbook: completion_callback.yml
