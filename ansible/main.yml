@@ -13,7 +13,11 @@
       - ipa_host is defined
 - name: Create IdM users and groups
   import_playbook: ../../requirements_roles/infra-ansible/playbooks/manage-identities/manage-idm-identities.yml
+  vars:
+    identities: "{{ lodestar_identities }}"
 - name: Notify users
   import_playbook: ../../requirements_roles/infra-ansible/playbooks/notifications/email-notify-users.yml
 - name: Update Anarchy with status
   import_playbook: completion_callback.yml
+  vars:
+    users: "{{ identities.users }}"
