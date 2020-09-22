@@ -17,7 +17,7 @@
     identities: "{{ lodestar_identities }}"
 - name: Notify users
   import_playbook: ../../requirements_roles/infra-ansible/playbooks/notifications/email-notify-users.yml
-- name: Update Anarchy with status
-  import_playbook: completion_callback.yml
   vars:
     users: "{{ identities.users }}"
+- name: Update Anarchy with status
+  import_playbook: completion_callback.yml
