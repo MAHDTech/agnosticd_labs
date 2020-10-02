@@ -19,5 +19,6 @@
   import_playbook: ../../requirements_roles/infra-ansible/playbooks/notifications/email-notify-users.yml
   vars:
     users: "{{ identities.users }}"
+    email_content_file: "{{ inventory_dir }}/project/{{ email_template }}"
 - name: Update Anarchy with status
   import_playbook: completion_callback.yml
