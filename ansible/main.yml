@@ -20,7 +20,7 @@
 - hosts: mail-host
   gather_facts: false
   tasks:
-    - name: Include additional variables / inventory content"
+    - name: "Include additional variables / inventory content"
       include_vars:
         file: "{{ item }}"
       with_items: "{{ email_template | fileglob }}"
