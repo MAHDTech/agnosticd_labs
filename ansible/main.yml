@@ -11,14 +11,24 @@
     delay: 60
     when:
       - ipa_host is defined
+
 - name: Create IdM users and groups
   import_playbook: ../../requirements_roles/infra-ansible/playbooks/manage-identities/manage-idm-identities.yml
   vars:
     identities: "{{ lodestar_identities }}"
+
+- hosts: mail-host
+  gather_facts: false
+  tasks:
+    - name: "Include additional variables / inventory content"
+      include_vars:
+        file: "{{ item }}"
+      with_items: "{{ email_template | fileglob }}"
+
 - name: Notify users
   import_playbook: ../../requirements_roles/infra-ansible/playbooks/notifications/email-notify-users.yml
   vars:
     users: "{{ identities.users }}"
-    email_content_file: "{{ inventory_dir }}/project/{{ email_template }}"
+
 - name: Update Anarchy with status
   import_playbook: completion_callback.yml
